@@ -30,8 +30,6 @@ public class basicAutonomous extends LinearOpMode{
         MoveToStone,
         GrabStone,
         MoveToBuildZone,
-        MoveToFoundation,
-        PlaceStone,
         ParkFromQuarry,
         Park,
         Stop
@@ -127,42 +125,24 @@ public class basicAutonomous extends LinearOpMode{
                     else {
                         Drive.turnLeftAngle(0.5,90);
                     }
-                    Drive.moveForwardDistance(0.8, 175);
-                    newState(State.MoveToFoundation);
-                    break;
-
-
-                case MoveToFoundation:
-                    if (AllianceColor == true) {
-                        Drive.turnLeftAngle(0.5, 90);
-                    }
-                    else {
-                        Drive.turnRightAngle(0.5,90);
-                    }
-                    Lift.MoveUpTime(0.4);
-                    Drive.moveForwardDistance(0.5, 35);
-                    newState(State.PlaceStone);
-
-                case PlaceStone:
+                    Drive.driveUntilColor(0.3);
+                    Drive.moveForwardDistance(0.8, 50);
                     Grabber.open();
-                    Drive.TimeDelay(1.0);
                     newState(State.Park);
                     break;
 
-
                 case Park:
-                    Drive.moveBackwardDistance(0.8, 25);
-                    Lift.MoveDownTime(0.4);
+                    Drive.driveBackwardUntilColor(0.3);
                     Grabber.close();
                     //checks to see where to park
-                    if (bridgeanswer == true) {
+                    /*if (bridgeanswer == true) {
                             if (AllianceColor == true) {
-                                Drive.turnLeftAngle(0.5, 90);
+       //                         Drive.turnLeftAngle(0.5, 90);
                                 Drive.moveForwardDistance(0.8,50);
                                 //Drive.strafeRightDistance(0.8,15);
                             }
                             else {
-                                Drive.turnRightAngle(0.5,90);
+         //                       Drive.turnRightAngle(0.5,90);
                                //Drive.strafeLeftDistance(0.8,15);
                                 Drive.moveForwardDistance(0.8,50);
                             }
@@ -171,13 +151,13 @@ public class basicAutonomous extends LinearOpMode{
                     else {
                             Drive.moveBackwardDistance(0.8, 60);
                             if (AllianceColor == true) {
-                                Drive.turnLeftAngle(0.5, 90);
+         //                       Drive.turnLeftAngle(0.5, 90);
                             }
                             else {
-                                Drive.turnRightAngle(0.5,90);
+         //                       Drive.turnRightAngle(0.5,90);
                             }
                             Drive.moveForwardDistance(0.8, 100);
-                        }
+                        }*/
                     newState(State.Stop);
                     break;
 
@@ -194,13 +174,13 @@ public class basicAutonomous extends LinearOpMode{
                         }
                         Drive.moveForwardDistance(0.8, 70);
                     }
-                    else
-                        if (AllianceColor == true){
-                            Drive.strafeLeftDistance(0.8,90);
+                    else {
+                        if (AllianceColor == true) {
+                            Drive.strafeLeftDistance(0.8, 90);
+                        } else {
+                            Drive.strafeRightDistance(0.8, 90);
                         }
-                        else {
-                            Drive.strafeRightDistance(0.8,90);
-                        }
+                    }
                     newState(State.Stop);
                     break;
 
@@ -213,6 +193,7 @@ public class basicAutonomous extends LinearOpMode{
         }
 
         // ensure proper closure of subassemblies
+        Drive.TimeDelay(1.0);
         Lift.finalize();
     }
 }
