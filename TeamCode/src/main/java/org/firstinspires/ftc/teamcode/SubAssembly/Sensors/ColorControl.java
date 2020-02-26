@@ -8,7 +8,7 @@ public class ColorControl {
     /* Declare private class object */
     private LinearOpMode opmode = null;     /* local copy of opmode class */
     private ColorSensor sensorColor;
-    private int COLOR_THRESHOLD = 8000;
+    private int COLOR_THRESHOLD = 6000;
 
     /* Subassembly constructor */
     public ColorControl() {
