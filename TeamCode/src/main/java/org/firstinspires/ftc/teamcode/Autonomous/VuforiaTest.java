@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.SubAssembly.DriveTrain.DriveControl;
+import org.firstinspires.ftc.teamcode.SubAssembly.Grabber.GrabberControl;
+import org.firstinspires.ftc.teamcode.SubAssembly.Lift.LiftControl;
 import org.firstinspires.ftc.teamcode.SubAssembly.Vucam.VucamControl;
 
 // Assign OpMode type (TeleOp or Autonomous), name, and grouping
@@ -12,6 +14,8 @@ public class VuforiaTest extends LinearOpMode {
 
     DriveControl Drive = new DriveControl();
     VucamControl Vucam = new VucamControl();
+    LiftControl Lift = new LiftControl();
+//    GrabberControl Grabber = new GrabberControl();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -25,6 +29,8 @@ public class VuforiaTest extends LinearOpMode {
         // create and initialize sub-assemblies
         Drive.init(this);
         Vucam.init(this);
+        Lift.initialize(this);
+//        Grabber.init(this);
 
         // wait for PLAY button to be pressed on driver station
         telemetry.addLine(">> Press PLAY to start");
@@ -35,6 +41,7 @@ public class VuforiaTest extends LinearOpMode {
         // don't start until targets are randomized
         Vucam.Start();
 
+//        Grabber.open();
         Drive.moveForwardDistance(speed, 30);
         Vucam.findTarget(2.0);
         Vucam.Telemetry();
@@ -52,6 +59,8 @@ public class VuforiaTest extends LinearOpMode {
                 break;
         }
         Drive.moveForwardDistance(speed, 20);
+//        Grabber.close();
+        Lift.MoveUpTime(0.4);
         Drive.moveBackwardDistance(speed, 20);
         switch (Vucam.Skystone) {
             case LEFT:
@@ -65,5 +74,7 @@ public class VuforiaTest extends LinearOpMode {
         }
         Drive.moveBackwardDistance(speed, 30);
         telemetry.update();
+
+        Lift.finalize();
     }
 }
