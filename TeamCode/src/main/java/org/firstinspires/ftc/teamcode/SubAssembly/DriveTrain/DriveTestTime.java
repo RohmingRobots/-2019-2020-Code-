@@ -21,8 +21,6 @@ public class DriveTestTime extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // declare local variables
-        int mode = 0;
 
         // display welcome message
         telemetry.setAutoClear(false);
@@ -60,7 +58,7 @@ public class DriveTestTime extends LinearOpMode {
             speed = Drive.limitSpeedPositive(speed);
             telemetry.addLine("Speed: " + speed);
 
-            // check time input
+            // adjust values
             final double INC = 0.1;
             final double MIN = 0.1;
             final double MAX = 5.0;
