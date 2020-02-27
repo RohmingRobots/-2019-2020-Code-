@@ -62,7 +62,7 @@ public class DriveTestDistance extends LinearOpMode {
             speed = Drive.limitSpeedPositive(speed);
             telemetry.addLine("Speed: " + speed);
 
-            // check time input
+            // adjust values
             final double INC = 1.0;
             final double MIN = 10.0;
             final double MAX = 50.0;

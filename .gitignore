@@ -26,3 +26,7 @@ build/
 
 *ASUS_PC_01*
 
+gradle/wrapper/gradle-wrapper.properties
+build.gradle
+*.properties
+*.gradle

@@ -62,7 +62,7 @@ public class DriveTestAngle extends LinearOpMode {
             speed = Drive.limitSpeedPositive(speed);
             telemetry.addLine("Speed: " + speed);
 
-            // check time input
+            // adjust values
             final double INC = 5.0;
             final double MIN = 10.0;
             final double MAX = 180.0;

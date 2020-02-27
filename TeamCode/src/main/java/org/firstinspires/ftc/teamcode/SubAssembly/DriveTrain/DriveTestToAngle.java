@@ -62,12 +62,10 @@ public class DriveTestToAngle extends LinearOpMode {
             speed = Drive.limitSpeedPositive(speed);
             telemetry.addLine("Speed: " + speed);
 
-            // check angle input
+            // adjust values
             final double INC = 5.0;
             final double MIN = -180.0;
             final double MAX = 180.0;
-
-            // adjust values
             if (egamepad1.left_bumper.pressed)
                 toangle += INC;
             if (egamepad1.left_trigger.pressed)
