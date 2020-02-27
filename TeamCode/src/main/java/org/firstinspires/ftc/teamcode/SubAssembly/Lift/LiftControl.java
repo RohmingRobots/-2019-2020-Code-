@@ -66,11 +66,17 @@ public class LiftControl {/* Constants */
     }
 
     public void MoveUp() {
-        mode = Modes.UP;    // tell thread to move up
+        // set thread mode to up
+        mode = Modes.UP;
+//        LifterLeftM.setPower(LIFT_SPEED);
+//        LifterRightM.setPower(LIFT_SPEED);
     }
 
     public void MoveDown() {
-        mode = Modes.DOWN;    // tell thread to move up
+        // set thread mode to down
+        mode = Modes.DOWN;
+//        LifterLeftM.setPower(-LIFT_SPEED);
+//        LifterRightM.setPower(-LIFT_SPEED);
     }
 
     public void Stop() {
@@ -91,13 +97,17 @@ public class LiftControl {/* Constants */
     }
 
     public void MoveUpTime(double time) {
-        mode = Modes.UP;    // tell thread to move
+        mode = Modes.UP;
+//        LifterLeftM.setPower(LIFT_SPEED);
+//        LifterRightM.setPower(LIFT_SPEED);
         TimeDelay(time);
         Stop();
     }
 
     public void MoveDownTime(double time) {
-        mode = Modes.DOWN;    // tell thread to move
+        mode = Modes.DOWN;
+//        LifterLeftM.setPower(-LIFT_SPEED);
+//        LifterRightM.setPower(-LIFT_SPEED);
         TimeDelay(time);
         Stop();
     }
