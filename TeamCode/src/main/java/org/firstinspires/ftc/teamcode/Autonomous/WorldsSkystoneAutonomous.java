@@ -97,7 +97,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                 case DrivetoQuarry:
                     telemetry.addLine("Drive to Quarry");
                     telemetry.update();
-                    Drive.moveForwardDistance(0.75,71.2);
+                    Drive.moveForwardDistance(0.75,55);
                     newState(State.GrabSkystone);
                     break;
                 // Navigates to where the skystone is and grabs it
@@ -117,21 +117,24 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                         telemetry.addLine("Center");
                     }
                     Grabber.open();
-                    Drive.moveForwardDistance(0.5,5);
+                    Grabber.Pos0();
+                    Drive.TimeDelay(0.5);
+                    Drive.moveForwardDistance(0.5,23);
                     Grabber.close();
+                    Drive.TimeDelay(0.5);
                     newState(State.MovetoLine);
                     break;
                 // Turns and drives until under the skybridge
                 case MovetoLine:
                     telemetry.addLine("MovetoLine");
                     telemetry.update();
-                    Drive.moveBackwardDistance(0.5,10.16);
+                    Drive.moveBackwardDistance(0.5,12.16);
                     if (AllianceColor == true) {
                         Drive.turnRightAngle(0.5, 90);
                     } else {
                         Drive.turnLeftAngle(0.5, 90);
                     }
-                    Drive.driveUntilColor(0.75);
+                    Drive.driveUntilColor(0.3);
                     //Drive until sees red or blue line
                     newState(State.DeliverSkystone);
                     break;
