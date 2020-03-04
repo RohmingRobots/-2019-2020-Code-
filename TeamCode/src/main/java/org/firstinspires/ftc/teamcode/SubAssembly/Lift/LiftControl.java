@@ -66,21 +66,15 @@ public class LiftControl {/* Constants */
     }
 
     public void MoveUp() {
-        // set thread mode to up
-        mode = Modes.UP;
-//        LifterLeftM.setPower(LIFT_SPEED);
-//        LifterRightM.setPower(LIFT_SPEED);
+        mode = Modes.UP;    // tell thread to move
     }
 
     public void MoveDown() {
-        // set thread mode to down
-        mode = Modes.DOWN;
-//        LifterLeftM.setPower(-LIFT_SPEED);
-//        LifterRightM.setPower(-LIFT_SPEED);
+        mode = Modes.DOWN;    // tell thread to move
     }
 
     public void Stop() {
-        // set thread mode to stop and stop motors immediately
+        // tell thread to stop and stop motors immediately
         mode = Modes.STOP;
         LifterLeftM.setPower(0);
         LifterRightM.setPower(0);
@@ -98,16 +92,12 @@ public class LiftControl {/* Constants */
 
     public void MoveUpTime(double time) {
         mode = Modes.UP;
-//        LifterLeftM.setPower(LIFT_SPEED);
-//        LifterRightM.setPower(LIFT_SPEED);
         TimeDelay(time);
         Stop();
     }
 
     public void MoveDownTime(double time) {
         mode = Modes.DOWN;
-//        LifterLeftM.setPower(-LIFT_SPEED);
-//        LifterRightM.setPower(-LIFT_SPEED);
         TimeDelay(time);
         Stop();
     }
@@ -124,6 +114,12 @@ public class LiftControl {/* Constants */
         return !LifterButtonB.isPressed();
     }
 
+    public void Telemetry() {
+        opmode.telemetry.addData("Mode ", mode);
+        opmode.telemetry.addData("Limit top   ", isLimitTop());
+        opmode.telemetry.addData("Limit bottom", isLimitBottom());
+    }
+
     private class updateThread extends Thread {
         public updateThread() {
             mode = Modes.STOP;
@@ -138,11 +134,14 @@ public class LiftControl {/* Constants */
                     switch (mode) {
                         default:
                         case STOP:
-                            Stop();
+                            LifterLeftM.setPower(0);
+                            LifterRightM.setPower(0);
                             break;
                         case UP:
                             if (isLimitTop()) {
-                                Stop();
+                                mode = Modes.STOP;
+                                LifterLeftM.setPower(0);
+                                LifterRightM.setPower(0);
                             } else {
                                 LifterLeftM.setPower(LIFT_SPEED);
                                 LifterRightM.setPower(LIFT_SPEED);
@@ -150,7 +149,9 @@ public class LiftControl {/* Constants */
                             break;
                         case DOWN:
                             if (isLimitBottom()) {
-                                Stop();
+                                mode = Modes.STOP;
+                                LifterLeftM.setPower(0);
+                                LifterRightM.setPower(0);
                             } else {
                                 LifterLeftM.setPower(-LIFT_SPEED);
                                 LifterRightM.setPower(-LIFT_SPEED);
@@ -158,7 +159,7 @@ public class LiftControl {/* Constants */
                             break;
                     }
 
-                    Thread.sleep(40);
+                    Thread.sleep(100);
                 }
             }
             // interrupted means time to shutdown. note we can stop by detecting isInterrupted = true

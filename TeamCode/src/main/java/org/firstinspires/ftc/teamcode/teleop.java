@@ -42,6 +42,7 @@ public class teleop extends LinearOpMode {
         Lift.initialize(this);
         FoundationGrabber.init(this);
 
+        Drive.PIDReset(true);
         //Grabber.home();
 
         // wait for PLAY button to be pressed on driver station
@@ -128,7 +129,7 @@ public class teleop extends LinearOpMode {
             telemetry.update();
 
             // let the robot have a little rest, sleep is healthy
-            sleep(40);
+            sleep(20);
         }
 
         // ensure proper closure of subassemblies
