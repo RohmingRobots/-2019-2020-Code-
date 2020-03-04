@@ -95,7 +95,7 @@ public class foundationAuto extends LinearOpMode{
                 case MoveToFoundation:
                     telemetry.addLine("Move to Foundation");
                     telemetry.update();
-                    Drive.moveBackwardDistance(0.7,72);
+                    Drive.moveBackwardDistance(0.4,78);
                     newState(State.GrabFoundation);
                     break;
 
@@ -106,14 +106,14 @@ public class foundationAuto extends LinearOpMode{
                     telemetry.addLine("Reposition Foundation");
                     telemetry.update();
                     Drive.moveForwardDistance(0.8,77);
-                    if (AllianceColor == false) {
+                    if (AllianceColor == true) {
                         Drive.turnLeftAngle(0.8, 45);
                     }
                     else{
                         Drive.turnRightAngle(0.8, 45);
                     }
                     FoundationGrabber.open();
-                    if (AllianceColor == false) {
+                    if (AllianceColor == true) {
                         Drive.turnLeftAngle(0.8, 80 );
                     }
                     else {
@@ -129,17 +129,9 @@ public class foundationAuto extends LinearOpMode{
                         if (bridgeanswer == true) {
                             Drive.moveForwardDistance(0.8, 45);
                             Drive.strafeRightDistance(0.8, 80);
-                            resetStartTime();
-                            Drive.driveUntilColor(0.5);
-                            if (time == 1.0){
-                                Drive.stop();
-                            }
+                            Drive.driveUntilColor(0.3);
                         } else {
-                            resetStartTime();
-                            Drive.driveUntilColor(0.5);
-                            if (time == 1.0){
-                                Drive.stop();
-                            }
+                            Drive.driveUntilColor(0.3);
                         }
                     }
                     else {
@@ -148,18 +140,10 @@ public class foundationAuto extends LinearOpMode{
                             Drive.turnLeftAngle(0.8,90);
                             Drive.moveForwardDistance(0.8, 55);
                             Drive.turnRightAngle(0.8,90);
-                            resetStartTime();
-                            Drive.driveUntilColor(0.5);
-                            if (time == 1.0) {
-                                Drive.stop();
-                            }
+                            Drive.driveUntilColor(0.3 );
                         }
                         else {
-                            resetStartTime();
-                            Drive.driveUntilColor(0.8);
-                            if (time == 1.0) {
-                                Drive.stop();
-                            }
+                            Drive.driveUntilColor(0.3);
                         }
                     }
                     newState(State.Stop);
