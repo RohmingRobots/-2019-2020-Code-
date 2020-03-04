@@ -159,7 +159,7 @@ public class LiftControl {/* Constants */
                             break;
                     }
 
-                    Thread.sleep(40);
+                    Thread.sleep(100);
                 }
             }
             // interrupted means time to shutdown. note we can stop by detecting isInterrupted = true
