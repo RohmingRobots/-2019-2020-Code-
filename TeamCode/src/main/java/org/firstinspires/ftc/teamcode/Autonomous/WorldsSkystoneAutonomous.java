@@ -97,7 +97,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                 case DrivetoQuarry:
                     telemetry.addLine("Drive to Quarry");
                     telemetry.update();
-                    Drive.moveForwardDistance(0.75,55);
+                    Drive.moveForwardDistance(0.75,45);
                     newState(State.GrabSkystone);
                     break;
                 // Navigates to where the skystone is and grabs it
@@ -109,7 +109,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                     Vucam.Stop();
                     if (Vucam.Skystone == VucamControl.SkystonePosition.LEFT){
                         telemetry.addLine("Left");
-                        Drive.strafeLeftDistance(0.75, 20.32);
+                        Drive.strafeLeftDistance(0.75, 23);
                     } else if (Vucam.Skystone == VucamControl.SkystonePosition.RIGHT){
                         telemetry.addLine("Right");
                         Drive.strafeRightDistance(0.75, 20.32);
@@ -119,7 +119,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                     Grabber.open();
                     Grabber.Pos0();
                     Drive.TimeDelay(0.5);
-                    Drive.moveForwardDistance(0.5,23);
+                    Drive.moveForwardDistance(0.5,33);
                     Grabber.close();
                     Drive.TimeDelay(0.5);
                     newState(State.MovetoLine);
@@ -128,7 +128,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                 case MovetoLine:
                     telemetry.addLine("MovetoLine");
                     telemetry.update();
-                    Drive.moveBackwardDistance(0.5,12.16);
+                    Drive.moveBackwardDistance(0.5,18);
                     if (AllianceColor == true) {
                         Drive.turnRightAngle(0.5, 90);
                     } else {
