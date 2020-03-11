@@ -403,7 +403,7 @@ public class DriveControl {
 //            Color.Telemetry();
 //            opmode.telemetry.update();
 
-            opmode.sleep(40);
+            opmode.sleep(10);
             // ... until color is detected of stop requested
         } while (!Color.isBlue() && !Color.isRed() && !opmode.isStopRequested());
         stop();
@@ -420,7 +420,7 @@ public class DriveControl {
 //            Color.Telemetry();
 //            opmode.telemetry.update();
 
-            opmode.sleep(40);
+            opmode.sleep(10);
             // ... until color is detected of stop requested
         } while (!Color.isBlue() && !Color.isRed() && !opmode.isStopRequested());
         stop();

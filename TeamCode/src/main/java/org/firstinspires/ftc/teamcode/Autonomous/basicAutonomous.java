@@ -109,7 +109,7 @@ public class basicAutonomous extends LinearOpMode{
                     telemetry.update();
                     Grabber.open();
                     Grabber.Pos1(); //extends grabber slightly so it doesn't get caught on the lift
-                    Drive.moveForwardDistance(0.8, 80);
+                    Drive.moveForwardDistance(0.8, 75);
                     newState(State.GrabStone);
                     break;
 
@@ -122,15 +122,15 @@ public class basicAutonomous extends LinearOpMode{
                     break;
 
                 case DeliverStone:
-                    Drive.moveBackwardDistance(0.8,40);
+                    Drive.moveBackwardDistance(0.8,30);
                     if (red) {
                         Drive.turnRightAngle(0.5, 90);
                     }
                     else {
                         Drive.turnLeftAngle(0.5,90);
                     }
-                    Drive.moveForwardDistance(0.8, 30);
-                    Drive.moveForwardDistance(0.8, 50);
+                    Drive.moveForwardDistance(0.8, 95);
+                    //Drive.moveForwardDistance(0.8, 50);
                     Grabber.open();
                     if(secondStone){
                         newState(State.GrabStone2);
@@ -141,27 +141,29 @@ public class basicAutonomous extends LinearOpMode{
                     break;
 
                 case GrabStone2:
-                    Drive.moveBackwardDistance(0.8, 95);
+                    Drive.moveBackwardDistance(0.8, 115);
                     if(red){
                         Drive.turnLeftAngle(0.8, 90);
                     }
                     else{
                         Drive.turnRightAngle(0.8, 90);
                     }
-                    Drive.moveForwardDistance(0.8, 20);
+                    Drive.moveForwardDistance(0.7, 25);
                     Grabber.close();
                     newState(State.DeliverStone2);
                     break;
 
                 case DeliverStone2:
+                    Drive.moveBackwardDistance(0.8, 20);
                     if(!red){
                         Drive.turnLeftAngle(0.8, 90);
                     }
                     else{
                         Drive.turnRightAngle(0.8, 90);
                     }
-                    Drive.moveForwardDistance(0.8, 60);
-                    Drive.moveForwardDistance(0.8, 25);
+                    Drive.moveForwardDistance(0.8, 125);
+                    Grabber.open();
+                    //Drive.moveForwardDistance(0.8, 25);
                     newState(State.Park);
                     break;
 
@@ -169,16 +171,16 @@ public class basicAutonomous extends LinearOpMode{
                     if(red && Skybridge){
                         Drive.strafeLeftDistance(0.8, 10);
                         //Drive.driveBackwardUntilColor(0.3);
-                        Drive.moveBackwardDistance(0.8, 75);
+                        Drive.driveBackwardUntilColor(0.3);
                     }
                     else if (!red && Skybridge){
                         Drive.strafeRightDistance(0.8, 10);
                         //Drive.driveBackwardUntilColor(0.3);
-                        Drive.moveBackwardDistance(0.8, 75);
+                        Drive.driveBackwardUntilColor(0.3);
                     }
                     else if (Skybridge == false){
                         //Drive.driveBackwardUntilColor(0.3);
-                        Drive.moveBackwardDistance(0.8, 75);
+                        Drive.driveBackwardUntilColor(0.3);
                     }
                     Grabber.close();
                     newState(State.Stop);
