@@ -109,7 +109,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                     Vucam.Stop();
                     if (Vucam.Skystone == VucamControl.SkystonePosition.LEFT){
                         telemetry.addLine("Left");
-                        Drive.strafeLeftDistance(0.75, 23);
+                        Drive.strafeLeftDistance(0.75, 24);
                     } else if (Vucam.Skystone == VucamControl.SkystonePosition.RIGHT){
                         telemetry.addLine("Right");
                         Drive.strafeRightDistance(0.75, 20.32);
@@ -119,7 +119,7 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                     Grabber.open();
                     Grabber.Pos0();
                     Drive.TimeDelay(0.5);
-                    Drive.moveForwardDistance(0.5,33);
+                    Drive.moveForwardDistance(0.5,36);
                     Grabber.close();
                     Drive.TimeDelay(0.5);
                     newState(State.MovetoLine);
@@ -134,8 +134,6 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                     } else {
                         Drive.turnLeftAngle(0.5, 90);
                     }
-                    Drive.driveUntilColor(0.3);
-                    //Drive until sees red or blue line
                     newState(State.DeliverSkystone);
                     break;
 
@@ -143,9 +141,19 @@ public class WorldsSkystoneAutonomous extends LinearOpMode {
                 case DeliverSkystone:
                     telemetry.addLine("Deliver Skystone");
                     telemetry.update();
-                    Drive.moveForwardDistance(0.75,40);
+                    if (Vucam.Skystone == VucamControl.SkystonePosition.RIGHT && AllianceColor == true) {
+                        Drive.moveForwardDistance(0.75, 110);
+                    } else if (Vucam.Skystone == VucamControl.SkystonePosition.LEFT && AllianceColor == false){
+                        Drive.moveForwardDistance(0.75, 110);
+                    } else if (Vucam.Skystone == VucamControl.SkystonePosition.LEFT && AllianceColor == true){
+                        Drive.moveForwardDistance(0.75, 130);
+                    } else if (Vucam.Skystone == VucamControl.SkystonePosition.RIGHT && AllianceColor == false){
+                        Drive.moveForwardDistance(0.75, 130);
+                    } else {
+                        Drive.moveForwardDistance(0.75, 120);
+                    }
                     Grabber.open();
-                    Drive.moveBackwardDistance(0.75,40);
+                    Drive.moveBackwardDistance(0.75, 40);
                     newState(State.Stop);
                     break;
 
