@@ -29,9 +29,9 @@ public class basicAutonomous extends LinearOpMode{
         Initial,
         MoveToStone,
         GrabStone,
-        MoveToBuildZone,
-        MoveToFoundation,
-        PlaceStone,
+        DeliverStone,
+        GrabStone2,
+        DeliverStone2,
         ParkFromQuarry,
         Park,
         Stop
@@ -59,16 +59,18 @@ public class basicAutonomous extends LinearOpMode{
         Lift.initialize(this);
 
         // get user input
-        boolean bAnswer;
-        boolean AllianceColor;
-        boolean willPark;
-        boolean bridgeanswer;
+        boolean waiting;
+        boolean red;
+        boolean justParking;
+        boolean secondStone;
+        boolean Skybridge;
 
         //This asks whether you want to delay start or not and whether you are red or blue
-        bAnswer = User.getYesNo("Wait?");
-        AllianceColor = User.getRedBlue("Alliance Color");
-        willPark = User.getPark("Park?");
-        bridgeanswer = User.getPos("Bridge or Wall?");
+        waiting = User.getYesNo("Wait?");
+        red = User.getRedBlue("Alliance Color");
+        justParking = User.getPark("Park?");
+        secondStone = User.getStone("Deliver a second stone?");
+        Skybridge = User.getPos("Bridge or Wall?");
 
         // wait for PLAY button to be pressed on driver station
         telemetry.addLine(">> Press PLAY to start");
@@ -88,13 +90,13 @@ public class basicAutonomous extends LinearOpMode{
                 case Initial:
                     telemetry.addLine("Initial");
                     telemetry.update();
-                    if (bAnswer) {
+                    if (waiting) {
                         telemetry.addLine("wait for 5 seconds");
                         telemetry.update();
                         Drive.TimeDelay(5.0);
                     }
                     //checks to see if running full auto or just parking
-                    if (willPark == true){
+                    if (justParking){
                         newState(State.ParkFromQuarry);
                     }
                     else {
@@ -106,8 +108,8 @@ public class basicAutonomous extends LinearOpMode{
                     telemetry.addLine("move to stone");
                     telemetry.update();
                     Grabber.open();
-                    Grabber.Pos1();
-                    Drive.moveForwardDistance(0.8, 80);
+                    Grabber.Pos1(); //extends grabber slightly so it doesn't get caught on the lift
+                    Drive.moveForwardDistance(0.8, 75);
                     newState(State.GrabStone);
                     break;
 
@@ -116,91 +118,93 @@ public class basicAutonomous extends LinearOpMode{
                     telemetry.update();
                     Grabber.close();
                     Drive.TimeDelay(0.5);
-                    newState(State.MoveToBuildZone);
+                    newState(State.DeliverStone);
                     break;
 
-                case MoveToBuildZone:
-                    Drive.moveBackwardDistance(0.8,40);
-                    if (AllianceColor == true) {
+                case DeliverStone:
+                    Drive.moveBackwardDistance(0.8,30);
+                    if (red) {
                         Drive.turnRightAngle(0.5, 90);
                     }
                     else {
                         Drive.turnLeftAngle(0.5,90);
                     }
-                    Drive.moveForwardDistance(0.8, 175);
-                    newState(State.MoveToFoundation);
-                    break;
-
-
-                case MoveToFoundation:
-                    if (AllianceColor == true) {
-                        Drive.turnLeftAngle(0.5, 90);
+                    Drive.moveForwardDistance(0.8, 95);
+                    //Drive.moveForwardDistance(0.8, 50);
+                    Grabber.open();
+                    if(secondStone){
+                        newState(State.GrabStone2);
                     }
                     else {
-                        Drive.turnRightAngle(0.5,90);
+                        newState(State.Park);
                     }
-                    Lift.MoveUpTime(0.4);
-                    Drive.moveForwardDistance(0.5, 35);
-                    newState(State.PlaceStone);
+                    break;
 
-                case PlaceStone:
+                case GrabStone2:
+                    Drive.moveBackwardDistance(0.8, 115);
+                    if(red){
+                        Drive.turnLeftAngle(0.8, 90);
+                    }
+                    else{
+                        Drive.turnRightAngle(0.8, 90);
+                    }
+                    Drive.moveForwardDistance(0.7, 25);
+                    Grabber.close();
+                    newState(State.DeliverStone2);
+                    break;
+
+                case DeliverStone2:
+                    Drive.moveBackwardDistance(0.8, 20);
+                    if(!red){
+                        Drive.turnLeftAngle(0.8, 90);
+                    }
+                    else{
+                        Drive.turnRightAngle(0.8, 90);
+                    }
+                    Drive.moveForwardDistance(0.8, 125);
                     Grabber.open();
-                    Drive.TimeDelay(1.0);
+                    //Drive.moveForwardDistance(0.8, 25);
                     newState(State.Park);
                     break;
 
-
                 case Park:
-                    Drive.moveBackwardDistance(0.8, 25);
-                    Lift.MoveDownTime(0.4);
+                    if(red && Skybridge){
+                        Drive.strafeLeftDistance(0.8, 10);
+                        //Drive.driveBackwardUntilColor(0.3);
+                        Drive.driveBackwardUntilColor(0.3);
+                    }
+                    else if (!red && Skybridge){
+                        Drive.strafeRightDistance(0.8, 10);
+                        //Drive.driveBackwardUntilColor(0.3);
+                        Drive.driveBackwardUntilColor(0.3);
+                    }
+                    else if (Skybridge == false){
+                        //Drive.driveBackwardUntilColor(0.3);
+                        Drive.driveBackwardUntilColor(0.3);
+                    }
                     Grabber.close();
-                    //checks to see where to park
-                    if (bridgeanswer == true) {
-                            if (AllianceColor == true) {
-                                Drive.turnLeftAngle(0.5, 90);
-                                Drive.moveForwardDistance(0.8,50);
-                                //Drive.strafeRightDistance(0.8,15);
-                            }
-                            else {
-                                Drive.turnRightAngle(0.5,90);
-                               //Drive.strafeLeftDistance(0.8,15);
-                                Drive.moveForwardDistance(0.8,50);
-                            }
-                            Drive.moveForwardDistance(0.8, 50);
-                        }
-                    else {
-                            Drive.moveBackwardDistance(0.8, 60);
-                            if (AllianceColor == true) {
-                                Drive.turnLeftAngle(0.5, 90);
-                            }
-                            else {
-                                Drive.turnRightAngle(0.5,90);
-                            }
-                            Drive.moveForwardDistance(0.8, 100);
-                        }
                     newState(State.Stop);
                     break;
-
 
                 case ParkFromQuarry:
                     telemetry.addLine("Park");
                     telemetry.update();
-                    if (bridgeanswer == true) {
+                    if (Skybridge) {
                         Drive.moveForwardDistance(0.8, 65);
-                        if (AllianceColor == true) {
+                        if (red) {
                             Drive.turnLeftAngle(0.8, 90);
                         } else {
                             Drive.turnRightAngle(0.8, 90);
                         }
                         Drive.moveForwardDistance(0.8, 70);
                     }
-                    else
-                        if (AllianceColor == true){
-                            Drive.strafeLeftDistance(0.8,90);
+                    else {
+                        if (red) {
+                            Drive.strafeLeftDistance(0.8, 90);
+                        } else {
+                            Drive.strafeRightDistance(0.8, 90);
                         }
-                        else {
-                            Drive.strafeRightDistance(0.8,90);
-                        }
+                    }
                     newState(State.Stop);
                     break;
 
@@ -213,6 +217,7 @@ public class basicAutonomous extends LinearOpMode{
         }
 
         // ensure proper closure of subassemblies
+        Drive.TimeDelay(1.0);
         Lift.finalize();
     }
 }

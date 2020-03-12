@@ -399,10 +399,6 @@ public class DriveControl {
         // start moving forward ...
         moveForward(speed);
         do {
-            // debugging display
-//            Color.Telemetry();
-//            opmode.telemetry.update();
-
             opmode.sleep(10);
             // ... until color is detected of stop requested
         } while (!Color.isBlue() && !Color.isRed() && !opmode.isStopRequested());
@@ -416,11 +412,7 @@ public class DriveControl {
         // start moving forward ...
         strafeRight(speed);
         do {
-            // debugging display
-            Color.Telemetry();
-            opmode.telemetry.update();
-
-            opmode.sleep(40);
+            opmode.sleep(10);
             // ... until color is detected of stop requested
         } while (!Color.isBlue() && !Color.isRed() && !opmode.isStopRequested());
         stop();
@@ -433,11 +425,20 @@ public class DriveControl {
         // start moving forward ...
         strafeLeft(speed);
         do {
-            // debugging display
-            Color.Telemetry();
-            opmode.telemetry.update();
+            opmode.sleep(10);
+            // ... until color is detected of stop requested
+        } while (!Color.isBlue() && !Color.isRed() && !opmode.isStopRequested());
+        stop();
+    }
 
-            opmode.sleep(40);
+    public void driveBackwardUntilColor(double speed) {
+        // return immediately if color detected
+        if (Color.isBlue() || Color.isRed())
+            return;
+        // start moving forward ...
+        moveBackward(speed);
+        do {
+            opmode.sleep(10);
             // ... until color is detected of stop requested
         } while (!Color.isBlue() && !Color.isRed() && !opmode.isStopRequested());
         stop();
