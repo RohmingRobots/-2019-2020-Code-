@@ -55,14 +55,14 @@ public class foundationAuto extends LinearOpMode{
         Grabber.init(this);
 
         // get user input
-        boolean bAnswer;
-        boolean AllianceColor;
-        boolean bridgeanswer;
+        boolean waiting;
+        boolean red;
+        boolean Skybridge;
 
         //This asks whether you want to delay start or not and whether you are red or blue
-        bAnswer = User.getYesNo("Wait?");
-        AllianceColor = User.getRedBlue("Alliance Color");
-        bridgeanswer = User.getPos("Bridge or Wall?");
+        waiting = User.getYesNo("Wait?");
+        red = User.getRedBlue("Alliance Color");
+        Skybridge = User.getPos("Bridge or Wall?");
 
         // wait for PLAY button to be pressed on driver station
         telemetry.addLine(">> Press PLAY to start");
@@ -83,7 +83,7 @@ public class foundationAuto extends LinearOpMode{
                 case Initial:
                     telemetry.addLine("Initial");
                     telemetry.update();
-                    if (bAnswer) {
+                    if (waiting) {
                         telemetry.addLine("wait for 5 seconds");
                         telemetry.update();
                         Drive.TimeDelay(5.0);
@@ -95,7 +95,7 @@ public class foundationAuto extends LinearOpMode{
                 case MoveToFoundation:
                     telemetry.addLine("Move to Foundation");
                     telemetry.update();
-                    Drive.moveBackwardDistance(0.7,72);
+                    Drive.moveBackwardDistance(0.4,78);
                     newState(State.GrabFoundation);
                     break;
 
@@ -106,62 +106,42 @@ public class foundationAuto extends LinearOpMode{
                     telemetry.addLine("Reposition Foundation");
                     telemetry.update();
                     Drive.moveForwardDistance(0.8,77);
-                    if (AllianceColor == false) {
-                        Drive.turnLeftAngle(0.8, 45);
-                    }
-                    else{
+                    if (red) {
                         Drive.turnRightAngle(0.8, 45);
                     }
+                    else{
+                        Drive.turnLeftAngle(0.8, 45);
+                    }
                     FoundationGrabber.open();
-                    if (AllianceColor == false) {
-                        Drive.turnLeftAngle(0.8, 80 );
+                    if (red) {
+                        Drive.turnRightAngle(0.8, 80 );
                     }
                     else {
-                        Drive.turnRightAngle(0.8, 80 );
+                        Drive.turnLeftAngle(0.8, 80 );
                     }
                     newState(State.Park);
                     break;
 
 
                 case Park:
-                    telemetry.addLine("Park");
-                    if (AllianceColor == true) {
-                        if (bridgeanswer == true) {
-                            Drive.moveForwardDistance(0.8, 45);
-                            Drive.strafeRightDistance(0.8, 80);
-                            resetStartTime();
-                            Drive.driveUntilColor(0.5);
-                            if (time == 1.0){
-                                Drive.stop();
-                            }
-                        } else {
-                            resetStartTime();
-                            Drive.driveUntilColor(0.5);
-                            if (time == 1.0){
-                                Drive.stop();
-                            }
+                    if(red){
+                        if(Skybridge){
+                            Drive.strafeRightDistance(0.8, 10);
+                            Drive.driveUntilColor(0.3);
+                        }
+                        else{
+                            Drive.driveUntilColor(0.3);
                         }
                     }
                     else {
-                        if (bridgeanswer == true){
-                            Drive.moveForwardDistance(0.8,45);
-                            Drive.turnLeftAngle(0.8,90);
-                            Drive.moveForwardDistance(0.8, 55);
-                            Drive.turnRightAngle(0.8,90);
-                            resetStartTime();
-                            Drive.driveUntilColor(0.5);
-                            if (time == 1.0) {
-                                Drive.stop();
-                            }
-                        }
-                        else {
-                            resetStartTime();
-                            Drive.driveUntilColor(0.8);
-                            if (time == 1.0) {
-                                Drive.stop();
-                            }
+                        if (Skybridge) {
+                            Drive.strafeLeftDistance(0.8, 10);
+                            Drive.driveUntilColor(0.3);
+                        } else {
+                            Drive.driveUntilColor(0.3);
                         }
                     }
+                    Grabber.Pos1();
                     newState(State.Stop);
                     break;
 
@@ -173,6 +153,4 @@ public class foundationAuto extends LinearOpMode{
             }
         }
     }
-
-
 }

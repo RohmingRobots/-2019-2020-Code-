@@ -82,6 +82,20 @@ public class UserControl {
         return bridge;
     }
 
+    public boolean getStone (String prompt) {
+        boolean stone = false;
+
+        telemetry.addData("[X = Deliver second stone, B = Park]", prompt);
+        telemetry.update();
+        do {
+            egamepad1.updateEdge();
+        } while (!egamepad1.x.pressed && !egamepad1.b.pressed && !opmode.isStopRequested());
+        if (egamepad1.x.pressed)
+            stone = true;
+        egamepad1.updateEdge();
+        return stone;
+    }
+
     public boolean getYesNo(String prompt) {
         boolean isYes = false;
 
