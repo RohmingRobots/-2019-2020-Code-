@@ -4,9 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SubAssembly.DriveTrain.DriveControl;
-import org.firstinspires.ftc.teamcode.SubAssembly.Grabber.GrabberControl;
-import org.firstinspires.ftc.teamcode.SubAssembly.FoundationGrabber.FoundationGrabberControl;
-import org.firstinspires.ftc.teamcode.SubAssembly.Lift.LiftControl;
 import org.firstinspires.ftc.teamcode.Utilities.GamepadWrapper;
 
 /* Sub Assembly Test OpMode
@@ -25,7 +22,6 @@ public class teleop extends LinearOpMode {
         // display welcome message
         telemetry.setAutoClear(false);
         telemetry.addLine("TeleOp");
-        telemetry.addLine("*** MEET 2 ***");
         telemetry.update();
 
         // create extended gamepads (for press and release options)
@@ -34,14 +30,7 @@ public class teleop extends LinearOpMode {
 
         // create and initialize sub-assemblies
         DriveControl Drive = new DriveControl();
-        GrabberControl Grabber = new GrabberControl();
-        FoundationGrabberControl FoundationGrabber = new FoundationGrabberControl();
-        LiftControl Lift = new LiftControl();
         Drive.init(this);
-        Grabber.init(this);
-        Lift.initialize(this);
-        FoundationGrabber.init(this);
-
         Drive.PIDReset(true);
         //Grabber.home();
 
@@ -94,36 +83,8 @@ public class teleop extends LinearOpMode {
             }
 
             //go player 2-----------------------------------------------
+            //manipulator code here
 
-
-            if (egamepad2.b.released) {
-                Grabber.grab();
-            }
-            if (egamepad2.right_bumper.released) {
-                Grabber.wrist();
-            }
-            if (egamepad2.x.released) {
-                Grabber.extend();
-            }
-            if (egamepad2.y.released) {
-                Grabber.Pos0();
-            }
-
-            if (egamepad1.left_bumper.released) {
-                FoundationGrabber.close();
-            }
-
-            if (egamepad1.left_trigger.released) {
-                FoundationGrabber.open();
-            }
-
-            if (egamepad2.dpad_up.state) {
-                Lift.MoveUp();
-            } else if (egamepad2.dpad_down.state) {
-                Lift.MoveDown();
-            } else {
-                Lift.Stop();
-            }
 
             telemetry.addLine("Speed: " + speed);
             telemetry.update();
@@ -131,8 +92,5 @@ public class teleop extends LinearOpMode {
             // let the robot have a little rest, sleep is healthy
             sleep(20);
         }
-
-        // ensure proper closure of subassemblies
-        Lift.finalize();
     }
 }
