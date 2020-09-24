@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ColorControl {
     /* Declare private class object */
     private LinearOpMode opmode = null;     /* local copy of opmode class */
-    private ColorSensor sensorColor;
+    private ColorSensor colorSensorT;
+    private ColorSensor colorSensorB;
     private int COLOR_THRESHOLD = 6000;
 
     /* Subassembly constructor */
@@ -24,32 +25,45 @@ public class ColorControl {
         hwMap = opMode.hardwareMap;
 
         /* Map hardware devices */
-        sensorColor = hwMap.get(ColorSensor.class, "colorSensor");
+        colorSensorT = hwMap.get(ColorSensor.class, "colorSensorT");
+        colorSensorB = hwMap.get(ColorSensor.class, "colorSensorB");
     }
 
     public void Telemetry() {
-        opmode.telemetry.addData("Blue value: ", getBlue());
-        opmode.telemetry.addData("Red value: ", getRed());
-        if (isBlue())
-            opmode.telemetry.addLine("BLUE");
-        if (isRed())
-            opmode.telemetry.addLine("RED");
+        opmode.telemetry.addData("Blue value t: ", getBlueT());
+        opmode.telemetry.addData("Blue value b: ", getBlueB());
+        opmode.telemetry.addData("Red value t: ", getRedT());
+        opmode.telemetry.addData("Red value b: ", getRedB());
+        if (isBlueT())
+            opmode.telemetry.addLine("BLUE T");
+        if (isBlueB())
+            opmode.telemetry.addLine("BLUE B");
+        if (isRedT())
+            opmode.telemetry.addLine("RED T");
+        if (isRedB())
+            opmode.telemetry.addLine("RED B");
     }
 
-    public int getRed() {
-        return sensorColor.red();
+    public int getRedT() { return colorSensorT.red(); }
+    public int getRedB() { return colorSensorB.red(); }
+
+    public int getBlueT() {
+        return colorSensorT.blue();
+    }
+    public int getBlueB() {return colorSensorB.blue();}
+
+    public boolean isRedT() {
+        return getRedT() >= COLOR_THRESHOLD;
+    }
+    public boolean isRedB() {
+        return getRedB() >= COLOR_THRESHOLD;
     }
 
-    public int getBlue() {
-        return sensorColor.blue();
+    public boolean isBlueT() {
+        return getBlueT() >= COLOR_THRESHOLD;
     }
-
-    public boolean isRed() {
-        return getRed() >= COLOR_THRESHOLD;
-    }
-
-    public boolean isBlue() {
-        return getBlue() >= COLOR_THRESHOLD;
+    public boolean isBlueB() {
+        return getBlueB() >= COLOR_THRESHOLD;
     }
 
 }

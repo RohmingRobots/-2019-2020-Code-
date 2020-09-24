@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.SubAssembly.DriveTrain.DriveControl;
+import org.firstinspires.ftc.teamcode.SubAssembly.Flywheel.FlywheelControl;
+import org.firstinspires.ftc.teamcode.SubAssembly.Sensors.ColorControl;
 import org.firstinspires.ftc.teamcode.Utilities.UserControl;
 
 @Autonomous(name = "Autonomous", group = "Auto")
@@ -11,6 +13,8 @@ public class autonomous extends LinearOpMode {
 
     //This gives the control programs shortened names to refer to them in this program
     DriveControl Drive = new DriveControl();
+    ColorControl Color = new ColorControl();
+    FlywheelControl Flywheel = new FlywheelControl();
 
     //State setup
     private void newState(State newState) {
@@ -23,6 +27,7 @@ public class autonomous extends LinearOpMode {
     //This is a list of all of the states
     private enum State {
         Initial,
+        Park,
         Stop
     }
 
@@ -66,6 +71,10 @@ public class autonomous extends LinearOpMode {
                     telemetry.update();
                     //newState(State.);
                     break;
+
+                case Park:
+                    telemetry.addLine("Park");
+                    Drive.moveForwardDistance(0.7, 2.54*72);
 
                 case Stop:
                     telemetry.addLine("Stop");
